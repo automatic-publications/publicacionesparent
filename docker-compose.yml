@@ -1,0 +1,68 @@
+services:
+  # ===================== BASES DE DATOS =====================
+  postgres_publicaciones:
+    image: postgres:15
+    container_name: postgres_publicaciones
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: publicaciones
+    ports:
+      - "5433:5432"
+    volumes:
+      - publicaciones_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  postgres_user_auth:
+    image: postgres:15
+    container_name: postgres_user_auth
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: user_auth
+    ports:
+      - "5434:5432"
+    volumes:
+      - user_auth_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  # ===================== MICROSERVICIO USUARIO_AUTH =====================
+  usuario_auth:
+    image: marlonbossa/usuario-auth:latest
+    container_name: usuario_auth
+    depends_on:
+      - postgres_user_auth
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_user_auth:5432/user_auth
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+    ports:
+      - "8081:8081"
+    networks:
+      - app_network
+
+  # ===================== MICROSERVICIO PUBLICACIONES =====================
+  proyecto_publicaciones:
+    image: marlonbossa/proyecto-publicaciones:latest
+    container_name: publicaciones
+    depends_on:
+      - postgres_publicaciones
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_publicaciones:5432/publicaciones
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    networks:
+      - app_network
+
+# ===================== VOLUMES & NETWORK =====================
+volumes:
+  publicaciones_data:
+  user_auth_data:
+
+networks:
+  app_network:
+    driver: bridge

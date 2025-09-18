@@ -42,4 +42,7 @@ public class Publicacion {
 
     @Enumerated(EnumType.STRING)
     private EstadoPublicacion estado;
+    
+    private Long usuarioId;
+    
 }

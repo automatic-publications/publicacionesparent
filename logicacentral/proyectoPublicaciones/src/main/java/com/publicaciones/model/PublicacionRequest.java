@@ -14,7 +14,9 @@ public class PublicacionRequest {
     private String descripcion;
     private String imagenBase64;
     private String videoUrl;
-
+    private Long usuarioId;
+    
+    
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
@@ -33,5 +35,8 @@ public class PublicacionRequest {
             this.videoUrl = videoUrl;
         }
     }
+    
+    public Long getUsuarioId() { return usuarioId; }
+    public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
     
 }

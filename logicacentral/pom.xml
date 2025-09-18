@@ -14,5 +14,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>proyectoPublicaciones</module>
+        <module>usuario_auth</module>
     </modules>
 </project>

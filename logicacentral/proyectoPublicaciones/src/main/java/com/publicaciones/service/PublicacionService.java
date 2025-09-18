@@ -29,6 +29,10 @@ public class PublicacionService {
     public List<Publicacion> listar() {
         return repository.findAll();
     }
+    
+     public List<Publicacion> listarPorUsuario(Long usuarioId) {
+        return repository.findByUsuarioId(usuarioId);
+    }
 
     public Optional<Publicacion> buscarPorId(Long id) {
         return repository.findById(id);
@@ -41,6 +45,11 @@ public class PublicacionService {
     public List<Publicacion> buscarPorEstado(EstadoPublicacion estado) {
         return repository.findByEstado(estado);
     }
+    
+    public List<Publicacion> buscarPorUsuarioYEstado(Long usuarioId, EstadoPublicacion estado) {
+    return repository.findByUsuarioIdAndEstado(usuarioId, estado);
+        }
+
 
 
     public void eliminar(Long id) {
